@@ -10,10 +10,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
+      theme: ThemeData(
+        fontFamily: 'Montserrat',
+        inputDecorationTheme: InputDecorationTheme(
+          filled: false,
+          border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide:
+          const BorderSide(width: 1, color: Color(0xff333333))),
+          hintStyle: const TextStyle(
+          fontSize: 18, fontWeight: FontWeight.w200),
+        )
+
+      ),
       debugShowCheckedModeBanner: false,
-      home: HomePage()
+      home: const HomePage()
     );
   }
 }

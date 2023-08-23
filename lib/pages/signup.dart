@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -111,7 +112,7 @@ class SignUp extends StatelessWidget {
             SizedBox(
               width: 302,
               height: 62,
-              child: OutlinedButton(
+              child: OutlinedButton.icon(
                 style: ButtonStyle(
                   side: MaterialStateProperty.all(
                       const BorderSide(color: Color(0xff333333), width: 1.0)),
@@ -121,7 +122,8 @@ class SignUp extends StatelessWidget {
                   )),
                 ),
                 onPressed: () {},
-                child: const Text(
+                icon: const Icon(Icons.access_alarm),
+                label: const Text(
                   'Continue with Google',
                   style: TextStyle(
                       fontSize: 18,

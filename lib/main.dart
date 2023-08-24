@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/login.dart';
-import 'package:frontend/pages/signup.dart';
 import 'package:frontend/pages/chat.dart';
 
 void main() {

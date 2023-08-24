@@ -6,6 +6,7 @@ class Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const Drawer(),
       body: Column(
         children: [
           _topBar(),
@@ -32,46 +33,39 @@ class Chat extends StatelessWidget {
 
   Container _input() {
     return Container(
-          width: 360,
-          height: 75,
-          decoration: const BoxDecoration(
-            color: Color(0xff333333),
+      width: 360,
+      height: 75,
+      decoration: const BoxDecoration(
+        color: Color(0xff333333),
+      ),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 278,
+            height: 50,
+            child: TextField(
+              decoration: InputDecoration(
+                  filled: true,
+                  hintText: 'Type anything here',
+                  fillColor: Color(0xffD9D9D9),
+                  hintStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w200,
+                      color: Color(0xff333333))),
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 270,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(44),
-                ),
-                alignment: Alignment.centerLeft,
-                child: const Padding(
-                  padding: EdgeInsets.only(
-                    left: 25,
-                  ),
-                  child: Text(
-                    'Type anything here...',
-                    style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w200),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              const Icon(
-                Icons.send,
-                color: Color(0xffD9D9D9),
-              ),
-            ],
+          SizedBox(
+            width: 20,
           ),
-        );
+          Icon(
+            Icons.send,
+            color: Color(0xffD9D9D9),
+          ),
+        ],
+      ),
+    );
   }
 
   Container _aiMessage() {
@@ -83,9 +77,9 @@ class Chat extends StatelessWidget {
         color: const Color(0xff6CAEDF),
         borderRadius: BorderRadius.circular(44),
       ),
-      child: const Column(
+      child: Column(
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(
               top: 10,
             ),
@@ -111,17 +105,22 @@ class Chat extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 240, top: 50),
+            padding: const EdgeInsets.only(left: 240, top: 50),
             child: Row(
               children: [
-                Icon(
-                  Icons.thumb_up_alt_outlined,
-                  color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    const Icon(Icons.thumb_up_alt);
+                  },
+                  child: const Icon(
+                    Icons.thumb_up_alt_outlined,
+                    color: Colors.white,
+                  ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
-                Icon(
+                const Icon(
                   Icons.thumb_down_alt_outlined,
                   color: Colors.white,
                 ),
@@ -175,21 +174,24 @@ class Chat extends StatelessWidget {
       width: 361,
       height: 75,
       color: const Color(0xff333333),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(
-            Icons.menu,
-            color: Color(0xffD9D9D9),
+          GestureDetector(
+            onTap: () {},
+            child: const Icon(
+              Icons.menu,
+              color: Color(0xffD9D9D9),
+            ),
           ),
-          Text(
+          const Text(
             'Conversation’s title',
             style: TextStyle(
                 color: Color(0xffD9D9D9),
                 fontSize: 18,
                 fontWeight: FontWeight.w500),
           ),
-          Icon(
+          const Icon(
             Icons.add,
             color: Color(0xffD9D9D9),
           )

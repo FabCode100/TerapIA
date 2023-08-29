@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/chat.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -8,7 +9,7 @@ class Login extends StatelessWidget {
     return Scaffold(
         body: ListView(
       children: [
-        const SizedBox(height: 170),
+        const SizedBox(height: 110),
         const Center(
           child: Text(
             'Login',
@@ -43,7 +44,12 @@ class Login extends StatelessWidget {
                 bottom: 32,
               ),
               child: const TextField(
-                decoration: InputDecoration(hintText: AutofillHints.password),
+                decoration: InputDecoration(
+                  hintText: AutofillHints.password,
+                ),
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
               ),
             ),
             SizedBox(
@@ -57,7 +63,10 @@ class Login extends StatelessWidget {
                     )),
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color(0xff72B340))),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Chat()));
+                },
                 child: const Text(
                   'Continue',
                   style: TextStyle(

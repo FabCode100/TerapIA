@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/login.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
+        body: Column(
       children: [
-        const SizedBox(height: 170),
+        const SizedBox(height: 90),
         const Center(
           child: Text(
             'Sign up',
@@ -54,7 +54,12 @@ class SignUp extends StatelessWidget {
                 bottom: 32,
               ),
               child: const TextField(
-                decoration: InputDecoration(hintText: AutofillHints.password),
+                decoration: InputDecoration(
+                  hintText: AutofillHints.password,
+                ),
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
               ),
             ),
             SizedBox(
@@ -68,7 +73,10 @@ class SignUp extends StatelessWidget {
                     )),
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color(0xff72B340))),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Login()));
+                },
                 child: const Text(
                   'Continue',
                   style: TextStyle(
@@ -111,7 +119,7 @@ class SignUp extends StatelessWidget {
             SizedBox(
               width: 302,
               height: 62,
-              child: OutlinedButton.icon(
+              child: OutlinedButton(
                 style: ButtonStyle(
                   side: MaterialStateProperty.all(
                       const BorderSide(color: Color(0xff333333), width: 1.0)),
@@ -121,8 +129,7 @@ class SignUp extends StatelessWidget {
                   )),
                 ),
                 onPressed: () {},
-                icon: const Icon(Icons.access_alarm),
-                label: const Text(
+                child: const Text(
                   'Continue with Google',
                   style: TextStyle(
                       fontSize: 18,

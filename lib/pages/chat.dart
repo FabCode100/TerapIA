@@ -6,10 +6,26 @@ class Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
+      appBar: AppBar(
+        title: const Text(
+          'Conversation’s title',
+          style: TextStyle(
+              color: Color(0xffD9D9D9),
+              fontSize: 18,
+              fontWeight: FontWeight.w500),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xff333333),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: Icon(Icons.add),
+          )
+        ],
+      ),
+      drawer: const NavigationDrawer(),
       body: Column(
         children: [
-          _topBar(),
           Expanded(
             child: ListView(
               children: [
@@ -168,35 +184,417 @@ class Chat extends StatelessWidget {
       ),
     );
   }
+}
 
-  Container _topBar() {
-    return Container(
-      width: 361,
-      height: 75,
-      color: const Color(0xff333333),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          GestureDetector(
-            onTap: () {},
-            child: const Icon(
-              Icons.menu,
-              color: Color(0xffD9D9D9),
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Drawer(
+        backgroundColor: const Color(0xff333333),
+        child: ListView(
+          children: [
+            Row(
+              children: [
+                OutlinedButton(
+                  onPressed: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: SizedBox(
+                      width: 185,
+                      height: 50,
+                      child: OutlinedButton(
+                        style: ButtonStyle(
+                          side: MaterialStateProperty.all(const BorderSide(
+                              color: Color(0xffD9D9D9), width: 1.0)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          )),
+                        ),
+                        onPressed: () {},
+                        child: const Text(
+                          'New Chat',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xffFFFFFF),
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                OutlinedButton(
+                  onPressed: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: SizedBox(
+                      width: 55,
+                      height: 50,
+                      child: OutlinedButton(
+                        style: ButtonStyle(
+                          side: MaterialStateProperty.all(const BorderSide(
+                              color: Color(0xffD9D9D9), width: 1.0)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          )),
+                        ),
+                        onPressed: () {},
+                        child: const Center(
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          const Text(
-            'Conversation’s title',
-            style: TextStyle(
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Text(
+                'Today',
+                style: TextStyle(
+                    color: Color(0xffCCCCCC),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Text(
+                'Yesterday',
+                style: TextStyle(
+                    color: Color(0xffCCCCCC),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Text(
+                'Last 7 days',
+                style: TextStyle(
+                    color: Color(0xffCCCCCC),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Text(
+                'Last 30 days',
+                style: TextStyle(
+                    color: Color(0xffCCCCCC),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 18,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.messenger_outline_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Conversation',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 5),
+              child: Divider(
+                thickness: 1.8,
                 color: Color(0xffD9D9D9),
-                fontSize: 18,
-                fontWeight: FontWeight.w500),
-          ),
-          const Icon(
-            Icons.add,
-            color: Color(0xffD9D9D9),
-          )
-        ],
-      ),
-    );
-  }
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 10, left: 10, bottom: 10),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Icon(
+                      Icons.account_box,
+                      color: Color(0xffD9D9D9),
+                    ),
+                  ),
+                  Text(
+                    'User’s Name',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 120),
+                    child: Icon(
+                      Icons.settings,
+                      color: Color(0xffD9D9D9),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
 }

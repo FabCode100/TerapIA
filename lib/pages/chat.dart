@@ -1,8 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/terapia.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:frontend/constants/api.dart';
 
-class Chat extends StatelessWidget {
+class Chat extends StatefulWidget {
   const Chat({super.key});
 
+  @override
+  State<Chat> createState() => _ChatState();
+}
+
+class _ChatState extends State<Chat> {
+  Future<List<String>> fetchMessages() async {
+    final response = await http.get(Uri.parse('YOUR_BACKEND_API_ENDPOINT'));
+
+    if (response.statusCode == 200) {
+      // Parse the response JSON
+      final List<dynamic> data = json.decode(response.body);
+      final List<String> messages =
+          data.map((e) => e['text'].toString()).toList();
+      return messages;
+    } else {
+      // Handle errors, e.g., show an error message
+      throw Exception('Failed to load messages');
+    }
+  }
+
+  final TextEditingController _controller = TextEditingController();
+  final List<Message> _messages = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,43 +52,49 @@ class Chat extends StatelessWidget {
       drawer: const NavigationDrawer(),
       body: Column(
         children: [
-          Expanded(
-            child: ListView(
-              children: [
-                const SizedBox(
-                  height: 16,
-                ),
-                _userMessage(),
-                _aiMessage(),
-                _userMessage(),
-                _aiMessage(),
-                _userMessage(),
-                _aiMessage(),
-              ],
-            ),
+          FutureBuilder<List<String>>(
+            future: fetchMessages(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                final List<String> data = snapshot.data!;
+                return ListView.builder(
+                  reverse: true,
+                  itemCount: _messages.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(data[index]),
+                      // Add more widgets to display data as needed
+                    );
+                  },
+                );
+              }
+            },
           ),
-          _input(),
+          Container(
+            height: 80,
+            decoration: const BoxDecoration(
+              color: Color(0xff333333),
+            ),
+            child: _buildTextComposer(),
+          ),
         ],
       ),
     );
   }
 
-  Container _input() {
-    return Container(
-      width: 360,
-      height: 75,
-      decoration: const BoxDecoration(
-        color: Color(0xff333333),
-      ),
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+  Widget _buildTextComposer() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
         children: [
-          SizedBox(
-            width: 278,
-            height: 50,
+          Expanded(
             child: TextField(
-              decoration: InputDecoration(
+              controller: _controller,
+              decoration: const InputDecoration(
                   filled: true,
                   hintText: 'Type anything here',
                   fillColor: Color(0xffD9D9D9),
@@ -72,12 +104,10 @@ class Chat extends StatelessWidget {
                       color: Color(0xff333333))),
             ),
           ),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(
-            Icons.send,
-            color: Color(0xffD9D9D9),
+          IconButton(
+            icon: const Icon(Icons.send),
+            color: const Color(0xffD9D9D9),
+            onPressed: () {},
           ),
         ],
       ),

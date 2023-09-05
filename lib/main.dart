@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/chat.dart';
 import 'package:frontend/pages/signup.dart';
 
 void main() {
@@ -25,6 +26,6 @@ class MyApp extends StatelessWidget {
             )),
         debugShowCheckedModeBanner: false,
         
-        home: const SignUp());
+        home: const Chat());
   }
 }

@@ -13,16 +13,26 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
   Future<List<String>> fetchMessages() async {
-    final response = await http.get(Uri.parse('YOUR_BACKEND_API_ENDPOINT'));
+    final response = await http.get(Uri.parse(api));
 
     if (response.statusCode == 200) {
-      // Parse the response JSON
       final List<dynamic> data = json.decode(response.body);
-      final List<String> messages =
-          data.map((e) => e['text'].toString()).toList();
-      return messages;
+
+      // Check if the data is a list
+      // ignore: unnecessary_type_check
+      if (data is List) {
+        final List<String> messages = data
+            .map((e) => e['content'] != null ? e['content'].toString() : '')
+            .toList();
+
+        return messages;
+      } else {
+        // Handle the case where the data is not a list as expected
+        throw Exception('API response does not contain a list of messages');
+      }
     } else {
-      // Handle errors, e.g., show an error message
+      // Handle non-200 status codes here, e.g., log an error message
+      print('API request failed with status code ${response.statusCode}');
       throw Exception('Failed to load messages');
     }
   }
@@ -59,17 +69,27 @@ class _ChatState extends State<Chat> {
                 return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
+              } else if (!snapshot.hasData) {
+                // Handle case when data is null or empty
+                return const Text('No data available.');
               } else {
                 final List<String> data = snapshot.data!;
-                return ListView.builder(
-                  reverse: true,
-                  itemCount: _messages.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(data[index]),
-                      // Add more widgets to display data as needed
-                    );
-                  },
+
+                // Debugging prints
+                print('Data from snapshot: $data');
+                print('Number of messages: ${data.length}');
+
+                return Expanded(
+                  child: ListView.builder(
+                    reverse: true,
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(data[index],
+                            style: const TextStyle(color: Colors.black)),
+                      );
+                    },
+                  ),
                 );
               }
             },

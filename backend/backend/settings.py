@@ -132,5 +132,5 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:64820",  # Replace with your frontend URL
+    "http://localhost:59803",  # Replace with your frontend URL
 ]

@@ -38,6 +38,35 @@ class _ChatState extends State<Chat> {
   }
 
   final TextEditingController _controller = TextEditingController();
+  int counter = 1;
+  Future<void> postData(String message) async {
+    final response = await http.post(
+      Uri.parse(api),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'id': counter++,
+        'content': message,
+        'timestamp': '2023-09-02T02:42:37.816538Z',
+        'emotion': 'example',
+        'advice': 'example',
+        'conversation': 1,
+        'sender': 1,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      // Data was successfully posted
+      print('Message saved: $message');
+      _controller.clear(); // Clear the text field
+      setState(() {});
+    } else {
+      // Handle errors, e.g., show an error message
+      print('Failed to save message: ${response.statusCode}');
+    }
+  }
+
   final List<Message> _messages = [];
   @override
   Widget build(BuildContext context) {
@@ -86,18 +115,20 @@ class _ChatState extends State<Chat> {
                     itemBuilder: (context, index) {
                       return Card(
                         elevation: 2,
-                        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(44),
                         ),
-                        color: const Color(0xff72B340), // Set the background color to blue
+                        color: const Color(
+                            0xff72B340), // Set the background color to blue
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             title: Text(
                               data[index],
-                              style:
-                                  const TextStyle(color: Colors.white), // Text color
+                              style: const TextStyle(
+                                  color: Colors.white), // Text color
                             ),
                           ),
                         ),
@@ -141,7 +172,12 @@ class _ChatState extends State<Chat> {
           IconButton(
             icon: const Icon(Icons.send),
             color: const Color(0xffD9D9D9),
-            onPressed: () {},
+            onPressed: () {
+              final message = _controller.text;
+              if (message.isNotEmpty) {
+                postData(message);
+              }
+            },
           ),
         ],
       ),

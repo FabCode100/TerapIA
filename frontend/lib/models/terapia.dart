@@ -38,7 +38,7 @@ class Conversation {
 class Message {
   final int id;
   final String text;
-  final String timestamp;
+  final DateTime timestamp;
 
   Message({required this.id, required this.text, required this.timestamp});
 

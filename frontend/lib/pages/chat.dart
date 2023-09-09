@@ -37,7 +37,19 @@ class _ChatState extends State<Chat> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    fetchMessages().then((messages) {
+      setState(() {
+        _messages = messages;
+      });
+    });
+  }
+
   final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
   int counter = 1;
   Future<void> postData(String message) async {
     final response = await http.post(
@@ -59,15 +71,27 @@ class _ChatState extends State<Chat> {
     if (response.statusCode == 201) {
       // Data was successfully posted
       print('Message saved: $message');
+      // Use setState to trigger a rebuild of the widget
+      setState(() {
+        _messages.add(message);
+      });
       _controller.clear(); // Clear the text field
-      setState(() {});
+
+      // Scroll to the latest message
+      Future.delayed(const Duration(milliseconds: 100), () {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
     } else {
       // Handle errors, e.g., show an error message
       print('Failed to save message: ${response.statusCode}');
     }
   }
 
-  final List<Message> _messages = [];
+  List<String> _messages = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,53 +115,34 @@ class _ChatState extends State<Chat> {
       drawer: const NavigationDrawer(),
       body: Column(
         children: [
-          FutureBuilder<List<String>>(
-            future: fetchMessages(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else if (!snapshot.hasData) {
-                // Handle case when data is null or empty
-                return const Text('No data available.');
-              } else {
-                final List<String> data = snapshot.data!;
-
-                // Debugging prints
-                print('Data from snapshot: $data');
-                print('Number of messages: ${data.length}');
-
-                return Expanded(
-                  child: ListView.builder(
-                    reverse: false,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        elevation: 2,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(44),
-                        ),
-                        color: const Color(
-                            0xff72B340), // Set the background color to blue
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            title: Text(
-                              data[index],
-                              style: const TextStyle(
-                                  color: Colors.white), // Text color
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+          Expanded(
+            child: ListView.builder(
+              controller: _scrollController,
+              reverse: false,
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: 2,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(44),
+                  ),
+                  color: const Color(
+                      0xff72B340), // Set the background color to blue
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Text(
+                        _messages[index],
+                        style:
+                            const TextStyle(color: Colors.white), // Text color
+                      ),
+                    ),
                   ),
                 );
-              }
-            },
+              },
+            ),
           ),
           Container(
             height: 80,
@@ -180,107 +185,6 @@ class _ChatState extends State<Chat> {
             },
           ),
         ],
-      ),
-    );
-  }
-
-  Container _aiMessage() {
-    return Container(
-      margin: const EdgeInsets.only(left: 20, bottom: 20, right: 20),
-      width: 300,
-      height: 125,
-      decoration: BoxDecoration(
-        color: const Color(0xff6CAEDF),
-        borderRadius: BorderRadius.circular(44),
-      ),
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 10,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(
-                    Icons.smart_toy,
-                    color: Color(0xffFFFFFF),
-                  ),
-                ),
-                Text(
-                  'AI message',
-                  style: TextStyle(
-                      color: Color(0xffFFFFFF),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 240, top: 50),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    const Icon(Icons.thumb_up_alt);
-                  },
-                  child: const Icon(
-                    Icons.thumb_up_alt_outlined,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Icon(
-                  Icons.thumb_down_alt_outlined,
-                  color: Colors.white,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container _userMessage() {
-    return Container(
-      margin: const EdgeInsets.only(left: 20, bottom: 20, right: 20),
-      width: 300,
-      height: 125,
-      decoration: BoxDecoration(
-        color: const Color(0xff72B340),
-        borderRadius: BorderRadius.circular(44),
-      ),
-      child: const Padding(
-        padding: EdgeInsets.only(
-          top: 10,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Icon(
-                Icons.account_circle,
-                color: Color(0xffFFFFFF),
-              ),
-            ),
-            Text(
-              'User message',
-              style: TextStyle(
-                  color: Color(0xffFFFFFF),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400),
-            ),
-          ],
-        ),
       ),
     );
   }

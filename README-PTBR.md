@@ -34,15 +34,13 @@ Instale as libs necessárias
 
 ```
 pip install Django
-
+```
 ```
 pip install djangorestframework
-
+```
 ```
 pip install django-cors-headers
-
 ```
-
 ## ⚙️ Executando os testes
 
 Inicializar BackEnd

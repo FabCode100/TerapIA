@@ -57,8 +57,6 @@ A aplicação estará funcionando corretamente
 
 ## 🛠️ Construído com
 
-Mencione as ferramentas que você usou para criar seu projeto
-
 * [Flutter](https://flutter.dev) - O framework para desenvolvimento do front end utilizado
 * [Django](https://www.djangoproject.com) - Framework do python para desenvolvimento do backend
 
